@@ -20,9 +20,49 @@ class App extends React.Component {
   }
 
   handleChange(event) {
-    this.setState({value: event.target.value});
-    this.setState({decodedValue: decodeURIComponent(event.target.value)});
-    this.setState({encodedValue: encodeURIComponent(event.target.value)});
+    this.setState({
+      value: event.target.value,
+      decodedValue: decodeURIComponent(event.target.value),
+      encodedValue: encodeURIComponent(event.target.value)
+    });
+  }
+
+  onCopy() {
+    // We need to create a dummy textarea with the text to be copied in the DOM
+    var textArea = document.createElement("textarea");
+
+    // Hide the textarea from actually showing
+    textArea.style.position = 'fixed';
+    textArea.style.top = '-999px';
+    textArea.style.left = '-999px';
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = '0';
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+
+    // Set the texarea's content to our value defined in our [text-copy] attribute
+    textArea.value = this.state.activeTab === 'decode' ? this.state.decodedValue : this.state.encodedValue;
+    document.body.appendChild(textArea);
+
+    // This will select the textarea
+    textArea.select();
+
+    try {
+      // Most modern browsers support execCommand('copy'|'cut'|'paste'), if it doesn't it should throw an error
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      // Let the user know the text has been copied, e.g toast, alert etc.
+      console.log(msg);
+    } catch (err) {
+      // Tell the user copying is not supported and give alternative, e.g alert window with the text to copy
+      console.log('unable to copy');
+    }
+
+    // Finally we remove the textarea from the DOM
+    document.body.removeChild(textArea);
   }
 
   render() {
@@ -48,7 +88,7 @@ class App extends React.Component {
                 <pre className="decoded-value">
                   {this.state.decodedValue}
                 </pre>
-                <button className="btn btn-light">Copy Decoded</button>
+                <button className="btn btn-light" onClick={() => this.onCopy()}>Copy Decoded</button>
               </div>
               <div className={'tab-pane fade ' + (this.state.activeTab === 'encode' ? 'active show' : '')} id="nav-encoded" role="tabpanel" aria-labelledby="nav-encoded-tab">
                 <br />
@@ -58,7 +98,7 @@ class App extends React.Component {
                 <pre className="encoded-value">
                   {this.state.encodedValue}
                 </pre>
-                <button className="btn btn-light">Copy Encoded</button>
+                <button className="btn btn-light" onClick={() => this.onCopy()}>Copy Encoded</button>
               </div>
             </div>
           </div>
