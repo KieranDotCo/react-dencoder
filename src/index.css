@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.dencoder-textarea {
+  height: 50vh;
+  width:100%;
+}
+
+.decoded-value, .encoded-value {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.nav-tabs button.nav-item {
+  border-bottom: 1px solid #dee2e6;
+}
