@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import PrettyPrintJSON from './components/PrettyPrintJSON/PrintPrintJSON';
+import UrlEncoder from './components/UrlEncoder/UrlEncoder';
+import UrlDecoder from './components/UrlDecoder/UrlDecoder';
 
 class App extends React.Component {
   constructor(props) {
@@ -11,7 +14,7 @@ class App extends React.Component {
       decodedValue: '',
       jsonValue: ''
     };
-    this.jsonError = 'Please enter valid JSON to be pretty printed.';
+
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -21,18 +24,8 @@ class App extends React.Component {
   }
 
   handleChange(event) {
-    let jsonValue = '';
-    try {
-      jsonValue = JSON.stringify(JSON.parse(event.target.value),null,2);
-    } catch (e) {
-      jsonValue = this.jsonError;
-    }
-
     this.setState({
-      value: event.target.value,
-      decodedValue: decodeURIComponent(event.target.value),
-      encodedValue: encodeURIComponent(event.target.value),
-      jsonValue: jsonValue
+      value: event.target.value
     });
   }
 
@@ -53,7 +46,7 @@ class App extends React.Component {
     textArea.style.background = 'transparent';
 
     // Set the texarea's content to our value defined in our [text-copy] attribute
-    textArea.value = this.state.activeTab === 'decode' ? this.state.decodedValue : this.state.encodedValue;
+    textArea.value = document.querySelector(`.${this.state.activeTab}-value`).textContent;
     document.body.appendChild(textArea);
 
     // This will select the textarea
@@ -92,38 +85,17 @@ class App extends React.Component {
             <div className="tab-content" id="nav-tabContent">
               <div className={'tab-pane fade ' + (this.state.activeTab === 'decode' ? 'active show' : '')} id="nav-decoded" role="tabpanel" aria-labelledby="nav-decoded-tab">
                 <br />
-                <div className={'alert alert-warning' + (this.state.decodedValue ? ' d-none' : '')} role="alert">
-                  Please enter a value to be decoded.
-                </div>
-                <pre className="decoded-value">
-                  {this.state.decodedValue}
-                </pre>
+                <UrlDecoder value={this.state.value}/>
                 <button className="btn btn-light" onClick={() => this.onCopy()}>Copy Decoded</button>
               </div>
               <div className={'tab-pane fade ' + (this.state.activeTab === 'encode' ? 'active show' : '')} id="nav-encoded" role="tabpanel" aria-labelledby="nav-encoded-tab">
                 <br />
-                <div className={'alert alert-warning' + (this.state.encodedValue ? ' d-none' : '')} role="alert">
-                  Please enter a value to be encoded.
-                  </div>
-                <pre className="encoded-value">
-                  {this.state.encodedValue}
-                </pre>
+                <UrlEncoder value={this.state.value}/>
                 <button className="btn btn-light" onClick={() => this.onCopy()}>Copy Encoded</button>
               </div>
               <div className={'tab-pane fade ' + (this.state.activeTab === 'json' ? 'active show' : '')} id="nav-encoded" role="tabpanel" aria-labelledby="nav-encoded-tab">
                 <br />
-                <div className={'alert alert-warning' + (this.state.jsonValue ? ' d-none' : '')} role="alert">
-                  Please enter a value to pretty print as JSON.
-                </div>
-                {
-                this.state.jsonValue === this.jsonError ?
-                <div className={'alert alert-danger'} role="alert">
-                  {this.jsonError}
-                </div>:
-                <pre className="json-value">
-                  {this.state.jsonValue}
-                </pre>
-                }
+                <PrettyPrintJSON value={this.state.value}/>
                 <button className="btn btn-light" onClick={() => this.onCopy()}>Copy JSON</button>
               </div>
             </div>
