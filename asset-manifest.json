@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/react-dencoder/static/css/main.13062a91.chunk.css",
-    "main.js": "/react-dencoder/static/js/main.d38d198c.chunk.js",
-    "main.js.map": "/react-dencoder/static/js/main.d38d198c.chunk.js.map",
+    "main.js": "/react-dencoder/static/js/main.c9e7d100.chunk.js",
+    "main.js.map": "/react-dencoder/static/js/main.c9e7d100.chunk.js.map",
     "runtime-main.js": "/react-dencoder/static/js/runtime-main.35943d5e.js",
     "runtime-main.js.map": "/react-dencoder/static/js/runtime-main.35943d5e.js.map",
     "static/js/2.aad55028.chunk.js": "/react-dencoder/static/js/2.aad55028.chunk.js",
     "static/js/2.aad55028.chunk.js.map": "/react-dencoder/static/js/2.aad55028.chunk.js.map",
     "index.html": "/react-dencoder/index.html",
-    "precache-manifest.7ec8182ebf02e09a6a1ae902dcc85090.js": "/react-dencoder/precache-manifest.7ec8182ebf02e09a6a1ae902dcc85090.js",
+    "precache-manifest.4b7b5aa3f26e5c495e682dd924868986.js": "/react-dencoder/precache-manifest.4b7b5aa3f26e5c495e682dd924868986.js",
     "service-worker.js": "/react-dencoder/service-worker.js",
     "static/css/main.13062a91.chunk.css.map": "/react-dencoder/static/css/main.13062a91.chunk.css.map"
   },
@@ -16,6 +16,6 @@
     "static/js/runtime-main.35943d5e.js",
     "static/js/2.aad55028.chunk.js",
     "static/css/main.13062a91.chunk.css",
-    "static/js/main.d38d198c.chunk.js"
+    "static/js/main.c9e7d100.chunk.js"
   ]
 }
