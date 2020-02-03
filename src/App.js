@@ -8,9 +8,10 @@ class App extends React.Component {
       activeTab: 'decode',
       value: '',
       encodedValue: '',
-      decodedValue: ''
+      decodedValue: '',
+      jsonValue: ''
     };
-
+    this.jsonError = 'Please enter valid JSON to be pretty printed.';
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -20,10 +21,18 @@ class App extends React.Component {
   }
 
   handleChange(event) {
+    let jsonValue = '';
+    try {
+      jsonValue = JSON.stringify(JSON.parse(event.target.value),null,2);
+    } catch (e) {
+      jsonValue = this.jsonError;
+    }
+
     this.setState({
       value: event.target.value,
       decodedValue: decodeURIComponent(event.target.value),
-      encodedValue: encodeURIComponent(event.target.value)
+      encodedValue: encodeURIComponent(event.target.value),
+      jsonValue: jsonValue
     });
   }
 
@@ -77,12 +86,13 @@ class App extends React.Component {
               <div className="nav nav-tabs" id="nav-tab" role="tablist">
                 <button className={'nav-item nav-link ' + (this.state.activeTab === 'decode' ? 'active' : '')} id="nav-decoded-tab" role="tab" aria-controls="nav-decoded" onClick={() => this.setActiveTab('decode')}>Decoded</button>
                 <button className={'nav-item nav-link ' + (this.state.activeTab === 'encode' ? 'active' : '')} id="nav-encoded-tab" role="tab" aria-controls="nav-encoded" onClick={() => this.setActiveTab('encode')}>Encoded</button>
+                <button className={'nav-item nav-link ' + (this.state.activeTab === 'json' ? 'active' : '')} id="nav-json-tab" role="tab" aria-controls="nav-json" onClick={() => this.setActiveTab('json')}>JSON</button>
               </div>
             </nav>
             <div className="tab-content" id="nav-tabContent">
               <div className={'tab-pane fade ' + (this.state.activeTab === 'decode' ? 'active show' : '')} id="nav-decoded" role="tabpanel" aria-labelledby="nav-decoded-tab">
                 <br />
-                <div className="alert alert-warning" role="alert">
+                <div className={'alert alert-warning' + (this.state.decodedValue ? ' d-none' : '')} role="alert">
                   Please enter a value to be decoded.
                 </div>
                 <pre className="decoded-value">
@@ -92,13 +102,29 @@ class App extends React.Component {
               </div>
               <div className={'tab-pane fade ' + (this.state.activeTab === 'encode' ? 'active show' : '')} id="nav-encoded" role="tabpanel" aria-labelledby="nav-encoded-tab">
                 <br />
-                <div className="alert alert-warning" role="alert">
+                <div className={'alert alert-warning' + (this.state.encodedValue ? ' d-none' : '')} role="alert">
                   Please enter a value to be encoded.
                   </div>
                 <pre className="encoded-value">
                   {this.state.encodedValue}
                 </pre>
                 <button className="btn btn-light" onClick={() => this.onCopy()}>Copy Encoded</button>
+              </div>
+              <div className={'tab-pane fade ' + (this.state.activeTab === 'json' ? 'active show' : '')} id="nav-encoded" role="tabpanel" aria-labelledby="nav-encoded-tab">
+                <br />
+                <div className={'alert alert-warning' + (this.state.jsonValue ? ' d-none' : '')} role="alert">
+                  Please enter a value to pretty print as JSON.
+                </div>
+                {
+                this.state.jsonValue === this.jsonError ?
+                <div className={'alert alert-danger'} role="alert">
+                  {this.jsonError}
+                </div>:
+                <pre className="json-value">
+                  {this.state.jsonValue}
+                </pre>
+                }
+                <button className="btn btn-light" onClick={() => this.onCopy()}>Copy JSON</button>
               </div>
             </div>
           </div>
